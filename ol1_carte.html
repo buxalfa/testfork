@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>OpenLayers</title>
+
+	<style>
+	</style>
+
+	<!-- jQuery et jQueryUI -->
+
+	<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+	<link rel="stylesheet" href="js/jquery/jquery-ui.min.css" />
+	<script type="text/javascript" src="js/jquery/jquery-ui.min.js"></script>
+
+	<!-- plugin jQuery jgrowl -->
+
+	<link rel="stylesheet" href="js/jgrowl/jquery.jgrowl.min.css" />
+	<script type="text/javascript" src="js/jgrowl/jquery.jgrowl.min.js"></script>
+
+	<!-- openlayers -->
+
+	<link rel="stylesheet" href="js/ol/ol.css" />
+	<script type="text/javascript" src="js/ol/ol.js"></script>
+
+	<!-- Bootstrap -->
+
+	<link rel="stylesheet" href="js/bootstrap/bootstrap.min.css" />
+	<script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
+
+
+	<script type="text/javascript">
+
+		var map = null;
+
+		var lon = -4.501;		// longitude initiale Brest
+		var lat = 48.400;		// latitude initiale Brest
+		var zoom = 10;			// zoom initial
+
+		var icon_fleche = 'img/marqueurs/marqueur_fleche.png';
+		var iconMarqueur = 'img/marqueurs/marqueur_etoile_vert_32.png';
+
+		var codeIGN = "8p6i7q7h286c9mminllsz05k";
+
+
+		$(document).ready(function () { // jquery
+			initMap();
+
+
+		});
+
+		function initMap() {
+			map = new ol.Map({
+				target: 'map',
+				layers: [
+					new ol.layer.Tile({
+						source: new ol.source.OSM()
+					})
+				],
+				view: new ol.View({
+					center: ol.proj.fromLonLat([lon, lat]),
+					zoom: zoom
+				})
+			});
+		}
+
+
+
+		/************************************* distance ************************************/
+
+		//distance en km
+
+		function toRad(x) { return x * Math.PI / 180; }
+
+		function distance(lon1, lat1, lon2, lat2) {
+
+			var R = 6371; // rayon de la terre en km
+			var dLon = toRad(lon2 - lon1),
+				lat1 = toRad(lat1),
+				lat2 = toRad(lat2),
+				d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(dLon)) * R;
+
+
+			return d;
+		}
+
+
+	</script>
+
+</head>
+
+<body>
+
+	<p>Position courante : <span id="pos"></span></p>
+	<input type="submit" onclick="chargerGPX()" value="Charger GPX" />
+
+	<div id="map" style="width: 100%; height: 400px; box-shadow: 0 0 10px #999;">
+
+
+</body>
+
+</html>
